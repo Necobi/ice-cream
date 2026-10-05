@@ -1,0 +1,43 @@
+*{
+    box-sizing: border-box;
+}
+
+#main{
+    background-color: white;
+    width: 70%;
+    margin: 0 auto;
+    padding: 0 1rem 2rem 1rem;
+}
+body{
+    margin:0;
+}
+label{
+    margin-bottom: 2rem;
+}
+legend{
+    color:green;
+    width: 100%;
+}
+
+fieldset{
+margin-bottom: 2rem;
+
+}
+ button{
+     border:none;
+    background-color: green;
+    border-color: darkgreen;
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+ }
+ 
+ textarea{
+    width: 100%;
+    border: 1px solid darkgreen;
+    border-radius: .25rem;
+    margin: 0rem 0rem 1rem 0rem;
+    padding: .75rem;
+ }
