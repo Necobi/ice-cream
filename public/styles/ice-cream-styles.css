@@ -2,25 +2,26 @@
     box-sizing: border-box;
 }
 
-#main{
+body{
     background-color: white;
     width: 70%;
-    margin: 0 auto;
-    padding: 0 1rem 2rem 1rem;
+    padding: 0rem 1rem 2rem 1rem;
 }
-body{
-    margin:0;
+h1{
+    text-align: center;
 }
 label{
-    margin-bottom: 2rem;
+    padding: 3rem;
+    margin-bottom: 3rem; 
 }
 legend{
     color:green;
     width: 100%;
+     padding: 1rem;
 }
 
-fieldset{
-margin-bottom: 2rem;
+fieldset {
+margin-bottom: 20px;
 
 }
  button{
@@ -33,7 +34,16 @@ margin-bottom: 2rem;
     color: white;
     font-size: 1rem;
  }
- 
+ form{
+    background-color: white;
+    height: 85%;
+    width: 25%;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+    position: relative;
+
+ }
  textarea{
     width: 100%;
     border: 1px solid darkgreen;
