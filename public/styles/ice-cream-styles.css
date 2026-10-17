@@ -9,13 +9,14 @@ body{
 }
 h1{
     text-align: center;
+    color: darkblue;
 }
 label{
     display: block;
     margin-bottom: 0.5rem; 
 }
 legend{
-    color:green;
+    color:darkblue;
      padding: 0.5rem;
 }
 
@@ -24,14 +25,20 @@ margin-bottom: 20px;
 
 }
  button{
-    border: 1px solid darkgreen;
-    background-color: green;
-    border-color: darkgreen;
+    border: 2px solid darkblue;
+    background-color: skyblue;
+    border-color: darkblue;
     padding: .5rem .75rem;
     border-radius: .25rem;
     text-decoration: none;
     color: white;
     font-size: 1rem;
+
+ }
+
+ button:hover{
+    background-color: darkblue;
+
  }
  form{
     background-color: white;
@@ -41,11 +48,12 @@ margin-bottom: 20px;
     padding: 1rem;
     margin: 0 auto;
     position: relative;
+    border-color: darkblue;
 
  }
  textarea{
     width: 100%;
-    border: 1px solid darkgreen;
+    border: 2px solid darkblue;
     border-radius: .25rem;
     margin: 0rem 0rem 1rem 0rem;
     padding: .75rem;
