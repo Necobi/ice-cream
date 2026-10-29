@@ -5,6 +5,12 @@ const app = express();
 //define a port number for server to listen on
 const PORT = 3001;
 
+const orders =[];
+
+app.set('view engine', 'ejs');
+
+app.use(express.urlencoded({extended: true}));
+
 //enable static file serving 
 app.use(express.static('public')); //grab static files from the public folder => images and styles NOT html
 
