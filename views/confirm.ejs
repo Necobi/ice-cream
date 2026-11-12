@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Confirmation page</h1>
+    <!-- displays order object -->
+    <h1>Thank you for your order, <%= order.name%>!</h1>
+    <h2>Order Summary </h2>
+    <p>Name: <%= order.name%> </p>
+    <p>Email: <%= order.email%></p>
+    <p>Flavor: <%= order.flavor%> </p>
+    <p>Cone: <%= order.method%> </p>
+    <p>Toppings: <%= order.toppings%></p>
+    <p>Comment: <%= order.comment%></p>
+    <p>Date and Time: <%= order.timestamp.toLocaleString()%></p>
+</body>
+</html>

@@ -6,18 +6,34 @@ const app = express();
 const PORT = 3001;
 
 const orders =[];
-
-app.set('view engine', 'ejs');
-
-app.use(express.urlencoded({extended: true}));
-
 //enable static file serving 
 app.use(express.static('public')); //grab static files from the public folder => images and styles NOT html
+
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended: true}));
+
+
 
 //defining a default route
 app.get('/', (req, res) => {
    // res.send('Welcome to My Ice Cream Shop!');
-   res.sendFile(`${import.meta.dirname}/views/home.html`); //when user accesses main page it sends the file
+   res.render('home') //when user accesses main page it sends the file
+});
+
+app.get('/admin', (req, res)=>{
+    res.render('admin' ,{orders});
+});
+
+app.post('/submit-order',(req,res)=>{
+    // create a json object to store order data
+    const order=req.body;
+    order['timestamp']=new Date();
+    console.log(order);
+
+    // add order object to orders array
+    orders.push(order);
+    console.log(orders);
+    res.render('confirm',{order});
 });
 
 //start server on designated port
