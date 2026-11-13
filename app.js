@@ -1,4 +1,17 @@
 import express from 'express';
+import mysql2 from 'mysql2';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+//Create a connection pool (bucket of db connectiom) create a bunch of connections to grab from
+ const pool= mysql2.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
+ }).promise();
 
 const app = express();
 
@@ -20,19 +33,46 @@ app.get('/', (req, res) => {
    res.render('home') //when user accesses main page it sends the file
 });
 
-app.get('/admin', (req, res)=>{
-    res.render('admin' ,{orders});
+app.get('/admin', async(req, res) => {
+     try{
+        const [orders] = await pool.query('SELECT * FROM orders');
+        console.log(orders);
+        res.render('admin', {orders} );
+    } catch(err){
+        console.error('Database error: ', err);
+        res.status(500).send('Database error occured.');
+        
+    }
+    
 });
 
-app.post('/submit-order',(req,res)=>{
+app.post('/submit-order',async(req,res)=>{
     // create a json object to store order data
     const order=req.body;
     order['timestamp']=new Date();
     console.log(order);
 
-    // add order object to orders array
-    orders.push(order);
-    console.log(orders);
+    //concert toppings array to comma-delimited string
+    order.toppings = Array.isArray(order.toppings)?
+    order.toppings.join(", "): "";
+
+    //define a sql query to insert the new order
+const sql = `INSERT INTO orders (name, email, flavor, method, toppings, comment)
+VALUES(?, ?, ?, ?, ?, ?)`;
+
+//CREATE AN ARRAY OD PARAMETERS FROM ORDER DATA
+const params =[
+    order.name,
+    order.email,
+    order.flavor,
+    order.method,
+    order.toppings,
+    order.comment
+];
+
+//execurte query
+const [result] = await pool.execute(sql, params);
+
     res.render('confirm',{order});
 });
 
