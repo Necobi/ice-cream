@@ -1,8 +1,11 @@
 import express from 'express';
 import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
+import session from 'express-session';
 
 dotenv.config();
+console.log('Admin User:', process.env.ADMIN_USER);
+console.log('Session secret loaded:', process.env.SESSION_SECRET);
 
 //Create a connection pool (bucket of db connectiom) create a bunch of connections to grab from
  const pool= mysql2.createPool({
@@ -24,6 +27,12 @@ app.use(express.static('public')); //grab static files from the public folder =>
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
+app.use(session({
+    secret: process.eventNames.SESSSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {maxAge: 10000 * 60 * 60}
+}));
 
 
 
@@ -44,7 +53,7 @@ app.get('/admin', async(req, res) => {
         
     }
     
-});
+})
 
 app.post('/submit-order',async(req,res)=>{
     // create a json object to store order data
