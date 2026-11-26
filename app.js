@@ -16,7 +16,23 @@ console.log('Session secret loaded:', process.env.SESSION_SECRET);
     port: process.env.DB_PORT
  }).promise();
 
+ 
+
 const app = express();
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {maxAge: 10000 * 60 * 60}
+}));
+
+function requireLogin(req, res, next){
+    if( req.session.loggedIn){
+        next();
+    } else{
+        res.redirect('/login');
+    }
+};
 
 //define a port number for server to listen on
 const PORT = 3001;
@@ -27,13 +43,15 @@ app.use(express.static('public')); //grab static files from the public folder =>
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
-app.use(session({
-    secret: process.eventNames.SESSSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {maxAge: 10000 * 60 * 60}
-}));
 
+
+
+
+/*app.get('/session-test', (req,res) => {
+    req.session.views = (req.session.views || 0) +1;
+    res.send(`Visits: ${req.session.views}<br>
+        Logged in: ${req.session.loggedIn === true }`);
+});*/
 
 
 //defining a default route
@@ -42,7 +60,34 @@ app.get('/', (req, res) => {
    res.render('home') //when user accesses main page it sends the file
 });
 
-app.get('/admin', async(req, res) => {
+app.get('/login', (req, res) => {
+    res.render('login', {error: null});
+});
+
+app.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if(username === process.env.ADMIN_USER &&
+       password === process.env.ADMIN_PASSWORD) {
+        req.session.loggedIn = true;
+        console.log("I am here");
+        res.redirect('/admin');
+
+       } else{
+        res.render('login', {error: 'Invalid username or password'});
+       }
+    
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
+});
+
+
+app.get('/admin', requireLogin, async(req, res) => {
      try{
         const [orders] = await pool.query('SELECT * FROM orders');
         console.log(orders);
